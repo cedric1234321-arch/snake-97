@@ -1,4 +1,49 @@
-import { createInitialState, DIRECTIONS, GRID_SIZE, step, tickDelay, turn } from './engine.js';
+const GRID_SIZE = 24;
+const DIRECTIONS = Object.freeze({
+  up: { x: 0, y: -1 },
+  down: { x: 0, y: 1 },
+  left: { x: -1, y: 0 },
+  right: { x: 1, y: 0 },
+});
+
+function placeFood(snake) {
+  const occupied = new Set(snake.map(({ x, y }) => `${x},${y}`));
+  const free = [];
+  for (let y = 0; y < GRID_SIZE; y += 1) {
+    for (let x = 0; x < GRID_SIZE; x += 1) {
+      if (!occupied.has(`${x},${y}`)) free.push({ x, y });
+    }
+  }
+  return free[Math.floor(Math.random() * free.length)] ?? null;
+}
+
+function createInitialState() {
+  const snake = [{ x: 12, y: 12 }, { x: 11, y: 12 }, { x: 10, y: 12 }, { x: 9, y: 12 }];
+  return { snake, food: placeFood(snake), direction: DIRECTIONS.right, nextDirection: DIRECTIONS.right, score: 0, level: 1, eaten: 0, alive: true };
+}
+
+function turn(currentState, direction) {
+  const current = currentState.direction;
+  if (!direction || direction.x + current.x === 0 && direction.y + current.y === 0) return currentState;
+  return { ...currentState, nextDirection: direction };
+}
+
+function step(currentState) {
+  if (!currentState.alive) return currentState;
+  const direction = currentState.nextDirection;
+  const head = { x: currentState.snake[0].x + direction.x, y: currentState.snake[0].y + direction.y };
+  const ate = currentState.food && head.x === currentState.food.x && head.y === currentState.food.y;
+  const bodyToCheck = ate ? currentState.snake : currentState.snake.slice(0, -1);
+  const hitWall = head.x < 0 || head.y < 0 || head.x >= GRID_SIZE || head.y >= GRID_SIZE;
+  const hitSelf = bodyToCheck.some(part => part.x === head.x && part.y === head.y);
+  if (hitWall || hitSelf) return { ...currentState, direction, alive: false };
+  const snake = [head, ...currentState.snake];
+  if (!ate) snake.pop();
+  const eaten = currentState.eaten + (ate ? 1 : 0);
+  return { ...currentState, snake, food: ate ? placeFood(snake) : currentState.food, direction, score: currentState.score + (ate ? 100 * currentState.level : 0), level: 1 + Math.floor(eaten / 5), eaten };
+}
+
+function tickDelay(currentLevel) { return Math.max(62, 150 - (currentLevel - 1) * 11); }
 
 const canvas = document.querySelector('#game');
 const ctx = canvas.getContext('2d');
