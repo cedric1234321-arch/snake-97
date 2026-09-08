@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#11140f" />
+    <meta name="description" content="Snake 97, un jeu d'arcade rétro jouable au clavier." />
+    <title>SNAKE '97 — Arcade Edition</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <main class="cabinet">
+      <header class="marquee" aria-label="Snake 97 Arcade Edition">
+        <p class="eyebrow">INSERT COIN • PLAYER ONE</p>
+        <h1>SNAKE <span>'97</span></h1>
+        <p class="subtitle">ARCADE EDITION</p>
+      </header>
+
+      <section class="scoreboard" aria-label="Scores de la partie">
+        <div><span>SCORE</span><strong id="score">00000</strong></div>
+        <div><span>NIVEAU</span><strong id="level">01</strong></div>
+        <div><span>RECORD</span><strong id="high-score">00000</strong></div>
+      </section>
+
+      <section class="screen-shell">
+        <div class="screen-glare" aria-hidden="true"></div>
+        <canvas id="game" width="600" height="600" aria-label="Zone de jeu Snake"></canvas>
+        <div id="overlay" class="overlay">
+          <div class="overlay-card">
+            <p id="overlay-kicker">PRÊT, JOUEUR 1 ?</p>
+            <h2 id="overlay-title">SNAKE '97</h2>
+            <p id="overlay-text">Mange les pixels. Évite les murs. Bats ton record.</p>
+            <button id="start-button" type="button">DÉMARRER</button>
+            <small>ENTRÉE POUR JOUER</small>
+          </div>
+        </div>
+      </section>
+
+      <section class="controls" aria-label="Commandes">
+        <div class="dpad" aria-hidden="true">
+          <span></span><kbd>↑</kbd><span></span>
+          <kbd>←</kbd><i></i><kbd>→</kbd>
+          <span></span><kbd>↓</kbd><span></span>
+        </div>
+        <div class="instructions">
+          <p><kbd>↑</kbd><kbd>↓</kbd><kbd>←</kbd><kbd>→</kbd> ou <kbd>ZQSD</kbd> pour bouger</p>
+          <p><kbd>ESPACE</kbd> pause · <kbd>M</kbd> son · <kbd>R</kbd> recommencer</p>
+        </div>
+        <button id="sound-button" class="round-button" type="button" aria-label="Couper le son">SON<br><span>ON</span></button>
+      </section>
+
+      <footer>NO ADS · NO TRACKING · JUST ONE MORE GAME</footer>
+    </main>
+
+    <script type="module" src="src/game.js"></script>
+  </body>
+</html>
