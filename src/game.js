@@ -127,14 +127,15 @@ function togglePause() {
 
 function gameOver() {
   status = 'gameover';
-  if (state.score > highScore) {
+  const isNewRecord = state.score > highScore;
+  if (isNewRecord) {
     highScore = state.score;
     localStorage.setItem(STORAGE_KEY, String(highScore));
   }
   updateHud();
   beep(150, .18, 'sawtooth', .05);
   setTimeout(() => beep(90, .35, 'sawtooth', .05), 140);
-  showOverlay('FIN DE PARTIE', `SCORE ${formatScore(state.score)}`, state.score === highScore && state.score > 0 ? 'Nouveau record ! La borne se souviendra de toi.' : 'Encore une ? Ton record ne va pas se battre tout seul.', 'REJOUER');
+  showOverlay('FIN DE PARTIE', `SCORE ${formatScore(state.score)}`, isNewRecord ? 'Nouveau record ! La borne se souviendra de toi.' : 'Encore une ? Ton record ne va pas se battre tout seul.', 'REJOUER');
 }
 
 function drawBlock(x, y, color, inset = 2) {
