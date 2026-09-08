@@ -4,7 +4,9 @@ Un Snake rétro, rapide et sans dépendance, pensé pour jouer directement dans 
 
 ## Jouer
 
-Ouvre `index.html` dans ton navigateur, ou lance un serveur local :
+Télécharge le projet puis double-clique simplement sur `index.html`. Aucun logiciel n'est nécessaire.
+
+Pour le lancer avec un serveur local, tu peux aussi utiliser :
 
 ```bash
 npx serve .
